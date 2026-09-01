@@ -1,6 +1,6 @@
 # Golf Coaching Context — Ian
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-01
 
 **Purpose:** Carries forward an ongoing golf-coaching relationship so a new session (or an agent) can pick up seamlessly. Ian submits rounds as app screenshots (scorecard + stats pages). He wants direct, honest, data-driven coaching — encouragement paired with real accountability. Voice-to-text messages sometimes have transcription errors (e.g. "pug" = putt, "t" = tee).
 
@@ -10,7 +10,9 @@ Companion file: `round-log.csv` — structured round-by-round data.
 
 ## Player Profile
 
-- **Age / level:** 27. Handicap index 22.6 (Aug 2025) → 11.2 (Aug 2026). 11.4 strokes in one year.
+- **Age / level:** 27. Handicap index 22.6 (Aug 2025) → **9.2 (Sep 2026)**, computed as the
+  best 8 of the last 20 differentials in `data/rounds.csv`. Trajectory: 12.3 (May),
+  11.4 (1 Aug), 9.2 (30 Aug).
 - **Goals:** Break 80 consistently; long-term mid-single-digit handicap.
 - **Based:** San Diego. Relocating to Mexico City (expect a temporary dip — unfamiliar courses have cost 4–8 strokes every time).
 - **Swing speed:** 100–106 mph. Steep angle of attack.
@@ -101,7 +103,15 @@ Ball-striking is **not** the primary limiter. Scoring leaks are decision/discipl
 - **Ceiling: 72–74.** He has shown 11 GIR and separately 26 putts. Those have not yet overlapped in one round.
 - **Floor: 85–87.** Raised from 88–91 by the driver fix — bad days now start from 10–11 GIR and 0–1 penalties.
 - **Working range: 78–85, averaging ~81.** Last four rounds: 82, 76, 83, 82.
+- **Never had a zero-double round** in 92 complete rounds. Best is one double, eight
+  times. This is the clearest unclaimed milestone in the log.
 - **Biggest remaining leak:** putting consistency (26 → 35 → 34 over three rounds) and clustered doubles.
+- **Putting matters more than the headline R² suggests.** Across all 92 rounds putts
+  correlate with score at R² = 0.05, because disaster holes swamp the signal. Within
+  recent low-double rounds the correlation is r = 0.79 (n = 12) — the 76 and the 81
+  had identical GIR and doubles, and differed only by 26 putts vs 32. Putting sets the
+  intercept, so it is the lever for a 6 handicap even though it is not the lever for
+  breaking 80. Treat as a strong lead until n grows.
 - **Caveat:** only two rounds of post-lesson data. The hook has returned before.
 
 ---
