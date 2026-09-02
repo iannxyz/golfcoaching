@@ -78,8 +78,12 @@ hand-edit them — they are rewritten on every import.
 | `add_round.py` | Appends one round, with validation. Called by `/round` |
 | `sg.py` | Strokes gained — benchmark tables and both estimators |
 | `calibrate.py` | Checks the handicap model against published scoring averages |
+| `whatif.py` | What one more round at a given score does to the index |
 
 ```bash
+PYTHONPATH=scripts python3 scripts/whatif.py            # table of next-round outcomes
+PYTHONPATH=scripts python3 scripts/whatif.py 80 Eastlake
+
 python3 scripts/importers.py                  # rebuild from raw
 PYTHONPATH=scripts python3 scripts/trend.py   # rebuild TRENDS.md
 PYTHONPATH=scripts python3 scripts/calibrate.py

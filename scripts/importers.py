@@ -43,6 +43,24 @@ FIELDS = [
 ]
 
 
+#: The app and the hand log spell some courses differently, which silently
+#: splits one course into two -- two course offsets, two sets of history. Map
+#: every spelling to one canonical name. Match is case-insensitive on the
+#: stripped name.
+COURSE_ALIASES = {
+    "enagic golf club at eastlake": "Enagic at Eastlake",
+    "enagic at eastlake": "Enagic at Eastlake",
+    "club social y deportivo campestre de tijuana a c": "Campestre de Tijuana",
+    "campestre de tijuana": "Campestre de Tijuana",
+}
+
+
+def canonical_course(name: str) -> str:
+    if not name:
+        return ""
+    return COURSE_ALIASES.get(name.strip().lower(), name.strip())
+
+
 def _date(ts_ms: int) -> str:
     return dt.datetime.utcfromtimestamp(ts_ms / 1000).date().isoformat()
 
@@ -70,7 +88,7 @@ def load_18birdies(path: Path) -> dict[str, dict]:
         date = _date(r["timestamp"])
         out[date] = {
             "date": date,
-            "course": clubs.get(r["clubId"]["id"], ""),
+            "course": canonical_course(clubs.get(r["clubId"]["id"], "")),
             "holes": holes,
             "score": r["strokes"],
             "front": sum(strokes[:9]) or None,
@@ -105,7 +123,10 @@ def load_csv_log(path: Path) -> dict[str, dict]:
         for row in csv.DictReader(fh):
             row = {k: (v.strip() if isinstance(v, str) else v)
                    for k, v in row.items()}
-            out[row["date"]] = {k: v for k, v in row.items() if v not in ("", None)}
+            row = {k: v for k, v in row.items() if v not in ("", None)}
+            if row.get("course"):
+                row["course"] = canonical_course(row["course"])
+            out[row["date"]] = row
     return out
 
 
