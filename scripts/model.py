@@ -254,6 +254,26 @@ def flags(rounds: list[Round], r: Round) -> list[str]:
 # Summaries
 # --------------------------------------------------------------------------
 
+def disaster_severity(rounds: list[Round]) -> float:
+    """Average strokes over par on a double-or-worse hole. About 2.2.
+
+    This is the number to use when asking "what if I had not made that
+    double" -- converting one to a bogey saves ``disaster_severity() - 1``
+    strokes, roughly 1.2.
+
+    Do **not** use the regression slope from :func:`fit` for that question. The
+    slope is about 2.1, but it is correlational: rounds with fewer doubles are
+    also rounds with better putting, fewer penalties and more pars, and the
+    slope carries all of that. Removing one blow-up hole from a round you
+    already played saves the mechanical 1.2, not 2.1. The extra stroke comes
+    bundled with the better play that usually accompanies a clean card, and it
+    cannot be banked on its own.
+    """
+    per = [r.disaster_strokes / r.doubles_or_worse for r in rounds
+           if r.disaster_strokes is not None and r.doubles_or_worse]
+    return statistics.mean(per) if per else 0.0
+
+
 def recent(rounds: list[Round], n: int = 10) -> list[Round]:
     return [r for r in rounds if r.is_full][-n:]
 

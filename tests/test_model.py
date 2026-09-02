@@ -164,3 +164,28 @@ def test_upsert_replaces_rather_than_duplicates(tmp_path):
     text = log.read_text()
     assert text.count("2026-09-01") == 1
     assert "78" in text
+
+
+# --- the causal-vs-correlational distinction -------------------------------
+
+def test_disaster_severity_is_just_over_a_double():
+    """A double is +2; worse holes drag the average up a little."""
+    sev = model.disaster_severity(model.load())
+    assert 2.0 <= sev < 2.6
+
+
+def test_the_mechanical_saving_is_smaller_than_the_regression_slope():
+    """Guards the misreading: 'one fewer double' is not worth the slope.
+
+    The slope carries everything else that correlates with a clean card. The
+    mechanical saving from converting one double to a bogey is severity - 1.
+    """
+    rounds = model.load()
+    mechanical = model.disaster_severity(rounds) - 1
+    assert mechanical < model.fit(rounds).slope - 0.5
+
+
+def test_severity_handles_a_round_with_no_doubles():
+    clean = Round(date="2026-01-01", score=74, par=72, holes=18,
+                  birdies=0, pars=16, bogeys=2, doubles_or_worse=0)
+    assert model.disaster_severity([clean]) == 0.0

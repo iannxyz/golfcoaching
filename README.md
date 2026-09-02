@@ -22,6 +22,15 @@ is not the limiter, and putts and fairways are nearly uncorrelated with the
 number on the card. A practice plan aimed at the swing is aimed at the wrong
 target — which is exactly what `/coach` will tell you.
 
+**Read that +2.08 as correlational, not causal.** It is tempting to reason
+"one fewer double, two fewer strokes" — that is wrong. His disaster holes
+average 2.2 over par, so converting one to a bogey saves about **1.2** strokes
+(`model.disaster_severity`). The slope is larger than the mechanical saving
+because rounds with fewer doubles also have better putting, fewer penalties and
+more pars; the coefficient carries all of it. The extra stroke is real but it
+comes bundled with the rest of a clean card, and it cannot be banked on its
+own.
+
 The headline number is therefore not strokes gained. It is the **round
 underneath**: the score with every double-or-worse hole replayed as a bogey.
 Bogeys, missed greens and three-putts all still count; only the damage past

@@ -10,6 +10,12 @@ strokes each). GIR explains 53%. Putts and fairways explain almost nothing.
 Any analysis or advice that leads with ball-striking is aimed at the wrong
 target — check the model before asserting a cause.
 
+**The 2.1 slope is correlational.** For "what if I had not made that double",
+use `model.disaster_severity()` — his disaster holes average 2.2 over par, so
+converting one to a bogey saves ~1.2 strokes, not 2.1. Mixing the two overstates
+what damage control alone can deliver, by nearly a stroke per double. This has
+already produced one wrong answer in conversation; keep the distinction.
+
 ## Generated files
 
 `data/rounds.csv`, `data/holes.csv` and `TRENDS.md` are **generated**. Never
