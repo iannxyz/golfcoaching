@@ -1,6 +1,6 @@
 # Golf Coaching Context — Ian
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-08
 
 **Purpose:** Carries forward an ongoing golf-coaching relationship so a new session (or an agent) can pick up seamlessly. Ian submits rounds as app screenshots (scorecard + stats pages). He wants direct, honest, data-driven coaching — encouragement paired with real accountability. Voice-to-text messages sometimes have transcription errors (e.g. "pug" = putt, "t" = tee).
 
@@ -12,7 +12,7 @@ Companion file: `round-log.csv` — structured round-by-round data.
 
 - **Age / level:** 27. Handicap index 22.6 (Aug 2025) → **9.2 (Sep 2026)**, computed as the
   best 8 of the last 20 differentials in `data/rounds.csv`. Trajectory: 12.3 (May),
-  11.4 (1 Aug), 9.2 (30 Aug).
+  11.4 (1 Aug), 9.2 (30 Aug), **8.7 (8 Sep)**.
 - **Goals:** Break 80 consistently; long-term mid-single-digit handicap.
 - **Based:** San Diego. Relocating to Mexico City (expect a temporary dip — unfamiliar courses have cost 4–8 strokes every time).
 - **Swing speed:** 100–106 mph. Steep angle of attack.
@@ -47,6 +47,26 @@ Ball-striking is **not** the primary limiter. Scoring leaks are decision/discipl
 3. **Short game / putting volatility** — up-and-down rate has swung from 11% to 83% across consecutive rounds. Not yet a stable skill.
 
 **Historic pattern:** strong front nines, weaker back nines (fatigue). Reversed in several recent rounds.
+
+**Altitude and unfamiliarity break the approach game, not the driver.** The two
+Incline Village rounds (~6,300 ft, first visit) are the cleanest test so far:
+
+| | Incline (2 rds) | home courses (recent) |
+|---|---|---|
+| Fairways | **8.5** | 6.0 |
+| GIR | **3.0** | 7.2 |
+| Putts | 38.0 | 34.3 |
+| Doubles | **8.5** | 3.5 |
+
+He drove it *better* than at home and still shot 99 and 95. Distance control on
+approach is what fails — the ball flies further, every club is wrong, and greens
+are unread. The round underneath both was 85. **This is the Mexico City preview
+at 7,350 ft, and it will be worse there.** Plan: re-learn carry numbers in the
+first week, expect the index to rise for a stretch, and treat the first ten
+rounds as data collection rather than evidence of decline.
+
+**Driver lesson is holding.** Fairways over the last three rounds: 9, 9, 8, against
+a prior-10 average of 6.2. No hook reported since 2026-08-28.
 
 **Confirmed non-golf variables:** fatigue and fueling. The 91 on 2026-08-18 came after four straight days of golf with no food. Rested + fed rounds are 5–10 strokes better.
 
@@ -94,6 +114,10 @@ Ball-striking is **not** the primary limiter. Scoring leaks are decision/discipl
 - 2026-06-06 — 84 at Torrey Pines North (129 slope).
 - ~7 weeks off own clubs (wedding + honeymoon), returned rusty late July.
 - **2026-08-27 — 76 (+4) at Eastlake Blue. Career best.** 12 pars. Did it with only 6 GIR — 26 putts and 83% scrambling carried it. Driver was hooking so he played the 5-wood off the tee all day.
+- **2026-09-02 — 78 at Eastlake Blue.** Second-best ever, and the first round that
+  looks like the target card: **1 double, 10 GIR, 9 fairways**. Dropped the index to 8.7.
+- **2026-09-03/04 — 99 and 95 at Incline Village (Lake Tahoe, ~6,300 ft).** See the
+  altitude note below; do not read these as a form collapse.
 - **2026-08-30 — 82 at Campestre from the Azul tees (6581).** 11 GIR (ties career best), 8 fairways, zero penalties. Same score as a week earlier from tees 320 yds shorter.
 
 ---
