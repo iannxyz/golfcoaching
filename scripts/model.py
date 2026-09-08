@@ -68,6 +68,10 @@ class Round:
     pars: int | None = None
     bogeys: int | None = None
     doubles_or_worse: int | None = None
+    greens_firm: str = ""
+    green_speed: str = ""
+    wind: str = ""
+    tee_club: str = ""
     app_handicap: float | None = None
     source: str = ""
     notes: str = ""
@@ -135,6 +139,9 @@ def load(path: Path = ROUNDS_CSV) -> list[Round]:
                 birdies=_num(r.get("birdies"), int), pars=_num(r.get("pars"), int),
                 bogeys=_num(r.get("bogeys"), int),
                 doubles_or_worse=_num(r.get("doubles_or_worse"), int),
+                greens_firm=r.get("greens_firm", ""),
+                green_speed=r.get("green_speed", ""),
+                wind=r.get("wind", ""), tee_club=r.get("tee_club", ""),
                 app_handicap=_num(r.get("app_handicap")),
                 source=r.get("source", ""), notes=r.get("notes", ""),
             ))
@@ -247,6 +254,20 @@ def flags(rounds: list[Round], r: Round) -> list[str]:
         out.append(f"{r.penalties} penalty strokes")
     if r.three_putts is not None and r.three_putts >= 4:
         out.append(f"{r.three_putts} three-putts")
+    if r.greens_firm == "firm":
+        out.append("firm greens (approaches release; expect low GIR)")
+    if r.green_speed == "fast":
+        out.append("fast greens (expect high putt count)")
+    if r.tee_club and "driver" not in r.tee_club.lower():
+        out.append(f"played {r.tee_club} off the tee, not driver "
+                   f"(fairway count says nothing about the driver)")
+    # The trap that produced a wrong diagnosis of the Incline Village rounds:
+    # app-only rounds carry no conditions, so the stats look self-explanatory
+    # when they are not.
+    if r.source == "18birdies" and is_first_visit(rounds, r) and not (
+            r.greens_firm or r.green_speed or r.notes):
+        out.append("away round with no conditions recorded -- ask before "
+                   "diagnosing from the stats")
     return out
 
 

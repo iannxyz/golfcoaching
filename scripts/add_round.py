@@ -27,7 +27,8 @@ LOG = ROOT / "data" / "raw" / "round-log.csv"
 COLUMNS = [
     "date", "course", "tee", "yards", "par", "score", "to_par", "front", "back",
     "fairways_hit", "fairways_total", "gir", "putts", "three_putts",
-    "penalties", "up_down_pct", "doubles_or_worse", "notes",
+    "penalties", "up_down_pct", "doubles_or_worse",
+    "greens_firm", "green_speed", "wind", "tee_club", "notes",
 ]
 
 
@@ -50,6 +51,12 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--penalties", type=int)
     p.add_argument("--up-down", type=float, help="up-and-down percentage")
     p.add_argument("--doubles", type=int, help="holes at double bogey or worse")
+    p.add_argument("--greens-firm", choices=("soft", "medium", "firm"),
+                   help="did approach shots check, or bounce and release?")
+    p.add_argument("--green-speed", choices=("slow", "medium", "fast"))
+    p.add_argument("--wind", help="free text, e.g. '17 mph'")
+    p.add_argument("--tee-club", help="what he actually played off the tee, "
+                                      "e.g. 'driver' or '5-wood'")
     p.add_argument("--notes", default="")
     p.add_argument("--no-rebuild", action="store_true",
                    help="skip the import/trend rebuild (used by the tests)")
@@ -65,7 +72,9 @@ def to_row(a: argparse.Namespace) -> dict:
         "fairways_hit": a.fairways, "fairways_total": a.fairways_total,
         "gir": a.gir, "putts": a.putts, "three_putts": a.three_putts,
         "penalties": a.penalties, "up_down_pct": a.up_down,
-        "doubles_or_worse": a.doubles, "notes": a.notes,
+        "doubles_or_worse": a.doubles,
+        "greens_firm": a.greens_firm, "green_speed": a.green_speed,
+        "wind": a.wind, "tee_club": a.tee_club, "notes": a.notes,
     }
     return {k: ("" if v is None else v) for k, v in row.items()}
 

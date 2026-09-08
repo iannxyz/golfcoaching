@@ -48,25 +48,39 @@ Ball-striking is **not** the primary limiter. Scoring leaks are decision/discipl
 
 **Historic pattern:** strong front nines, weaker back nines (fatigue). Reversed in several recent rounds.
 
-**Altitude and unfamiliarity break the approach game, not the driver.** The two
-Incline Village rounds (~6,300 ft, first visit) are the cleanest test so far:
+**Fast, firm greens are a bigger variable than altitude.** The two Incline Village
+rounds (~6,300 ft, first visit) were played on the fastest greens he has ever seen.
+Approach shots would not check — they bounced and released straight over the back.
+He also could not find the driver and **played the 5-wood off the tee both days**.
 
 | | Incline (2 rds) | home courses (recent) |
 |---|---|---|
-| Fairways | **8.5** | 6.0 |
+| Fairways | 8.5 | 6.0 |
 | GIR | **3.0** | 7.2 |
-| Putts | 38.0 | 34.3 |
+| Putts | **38.0** | 34.3 |
 | Doubles | **8.5** | 3.5 |
 
-He drove it *better* than at home and still shot 99 and 95. Distance control on
-approach is what fails — the ball flies further, every club is wrong, and greens
-are unread. The round underneath both was 85. **This is the Mexico City preview
-at 7,350 ft, and it will be worse there.** Plan: re-learn carry numbers in the
-first week, expect the index to rise for a stretch, and treat the first ten
-rounds as data collection rather than evidence of decline.
+Read that table with the 5-wood in mind: the high fairway count is a *conservative
+club finding short grass*, not driving that improved. The mechanism compounds —
+5-wood off the tee leaves a longer approach, altitude carries it further still, and
+a rock-hard green rejects it. GIR 3 follows, the 38 putts follow from the same green
+speed, and the doubles come from being short-sided over the back. Round underneath
+both was 85.
 
-**Driver lesson is holding.** Fairways over the last three rounds: 9, 9, 8, against
-a prior-10 average of 6.2. No hook reported since 2026-08-28.
+**Caution for Mexico City (7,350 ft):** the altitude is worse, but the lesson here is
+that *green firmness and speed* need to be scouted alongside carry numbers. Re-learn
+carry distances in the first week, and add a landing-zone plan for firm greens —
+land it short and let it release rather than flying it to the flag.
+
+**The driver question is still open.** The one clean piece of post-lesson evidence is
+2026-09-02 (78 at Eastlake, 9 fairways). The Incline fairway counts say nothing about
+the driver because he was not hitting it. The hook has returned before; treat this as
+one good round, not a fix confirmed.
+
+**Do not diagnose an away round from app stats alone.** Rounds imported from
+18Birdies carry no conditions and no notes. Both Incline rounds looked from the data
+like an altitude distance-control problem; the actual causes were green speed and a
+club change that the numbers could not show. Ask before concluding.
 
 **Confirmed non-golf variables:** fatigue and fueling. The 91 on 2026-08-18 came after four straight days of golf with no food. Rested + fed rounds are 5–10 strokes better.
 
@@ -116,8 +130,9 @@ a prior-10 average of 6.2. No hook reported since 2026-08-28.
 - **2026-08-27 — 76 (+4) at Eastlake Blue. Career best.** 12 pars. Did it with only 6 GIR — 26 putts and 83% scrambling carried it. Driver was hooking so he played the 5-wood off the tee all day.
 - **2026-09-02 — 78 at Eastlake Blue.** Second-best ever, and the first round that
   looks like the target card: **1 double, 10 GIR, 9 fairways**. Dropped the index to 8.7.
-- **2026-09-03/04 — 99 and 95 at Incline Village (Lake Tahoe, ~6,300 ft).** See the
-  altitude note below; do not read these as a form collapse.
+- **2026-09-03/04 — 99 and 95 at Incline Village (Lake Tahoe, ~6,300 ft).** Fastest
+  greens he has played; nothing held. Played the 5-wood off the tee both days. See the
+  conditions note below; do not read these as a form collapse.
 - **2026-08-30 — 82 at Campestre from the Azul tees (6581).** 11 GIR (ties career best), 8 fairways, zero penalties. Same score as a week earlier from tees 320 yds shorter.
 
 ---

@@ -24,6 +24,8 @@ Pull out:
 | penalties | stats page, or ask — the app under-reports these |
 | up-and-down % | stats page |
 | doubles or worse | count them off the scorecard row |
+| green firmness and speed | **ask** — never on the card |
+| club off the tee | **ask** if the round is unusual |
 
 If he typed the numbers instead of attaching images, use those. If something is
 missing, ask for just the missing fields — don't re-ask for what you already
@@ -58,6 +60,20 @@ number through. It then rebuilds `data/rounds.csv` and `TRENDS.md`.
 Notes matter. Record fatigue, food, wind, first visit to the course, what the
 driver was doing, and any club he switched to. Those explain more of his
 variance than the swing does.
+
+**Always ask about green firmness and what he hit off the tee** — neither is on
+a scorecard, and both change the meaning of the stats completely:
+
+- Firm greens make approaches release over the back. Low GIR on firm greens is a
+  conditions problem, not a striking problem.
+- Fast greens inflate the putt count on their own.
+- A high fairway count means nothing if he played a 5-wood off the tee. That is a
+  conservative club finding short grass, not the driver behaving.
+
+This is not hypothetical. The two Incline Village rounds (99 and 95) were first
+read as an altitude distance-control problem from the app stats alone. The real
+causes were the fastest greens he had ever played and a switch to the 5-wood.
+Ask before diagnosing.
 
 ## 4. Read the round back
 

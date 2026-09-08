@@ -46,6 +46,18 @@ Two live exceptions worth watching, both flagged thin in `TRENDS.md`:
 penalties and three-putts have only ~10 rounds of data. They look important.
 Treat them as leads, not conclusions, and say which they are.
 
+## Before diagnosing an away round
+
+`model.flags()` will tell you when a round has firm or fast greens recorded, when
+he played something other than the driver off the tee, and when an away round has
+**no** conditions recorded at all. Heed the last one: rounds imported from
+18Birdies carry no notes, and stats without conditions read as more conclusive
+than they are.
+
+A high fairway count with a 5-wood off the tee is not driving that improved. Low
+GIR on firm greens is not ball-striking that collapsed. Ask him what the greens
+were doing and what he hit off the tee before attributing anything to his swing.
+
 ## Building a practice plan
 
 Rank by leverage, not by what is most fun to practice:
