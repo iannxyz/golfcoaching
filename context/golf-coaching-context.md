@@ -1,6 +1,6 @@
 # Golf Coaching Context — Ian
 
-**Last updated:** 2026-09-08
+**Last updated:** 2026-09-09
 
 **Purpose:** Carries forward an ongoing golf-coaching relationship so a new session (or an agent) can pick up seamlessly. Ian submits rounds as app screenshots (scorecard + stats pages). He wants direct, honest, data-driven coaching — encouragement paired with real accountability. Voice-to-text messages sometimes have transcription errors (e.g. "pug" = putt, "t" = tee).
 
@@ -18,6 +18,9 @@ Companion file: `round-log.csv` — structured round-by-round data.
 - **Swing speed:** 100–106 mph. Steep angle of attack.
 - **Home courses:**
   - **Enagic Golf Club at Eastlake** (par 72). Blue 6224 yds, Black 6606 yds. Knows it cold.
+    **Greens are receptive and he reads the speed well** — the ball checks. So a bad
+    short-game or putting number at Eastlake has no conditions excuse behind it;
+    read it as a skill result. (Contrast Incline Village, where it was all conditions.)
   - **Campestre de Tijuana** (par 72). White/Blanco ~6261 yds, Azul/Blue ~6581 yds.
 - **Player type:** A **feel player**. Historically played his best golf with minimal/no warmup; over-tinkers when he warms up. Best swing thought is simply **"smooth tempo."** Do NOT load him up with mechanics.
 
@@ -44,7 +47,26 @@ Ball-striking is **not** the primary limiter. Scoring leaks are decision/discipl
 
 1. **Disaster holes** — the single biggest score driver. Score tracks doubles-or-worse almost perfectly (see round log: 1 double = 76, 6 doubles = 91, with near-identical ball-striking).
 2. **Penalty strokes** — 0–1 produces low 80s or better; 3–4 produces high 80s / low 90s.
-3. **Short game / putting volatility** — up-and-down rate has swung from 11% to 83% across consecutive rounds. Not yet a stable skill.
+3. **Short game / putting volatility — now the biggest single lever.** Up-and-down has
+   swung **0% to 83%** across eleven measured rounds (mean 33%, sd 24). It is by far the
+   least stable thing in his game, and on a round where he misses 10 greens the band
+   between his worst and best is worth **3 to 8 strokes**.
+
+   The cleanest evidence is twelve days apart, same course, same tees:
+
+   | | 2026-08-27 | 2026-09-08 |
+   |---|---|---|
+   | Score | **76** | **86** |
+   | GIR | 6 | 8 |
+   | Fairways | 5 | 6 |
+   | Up-and-down | **83%** | **0%** |
+   | Putts | 26 | 36 |
+   | Pars / bogeys | 14 / 1 | 4 / 12 |
+
+   He struck it *better* on the 86 and scored ten worse. Ball-striking is not the
+   variable; the short game is. Note this is the one place where the doubles model
+   does not explain a round — 09-08 had a single disaster hole and still cost him
+   four strokes over what the model predicts. Death by bogey, not by disaster.
 
 **Historic pattern:** strong front nines, weaker back nines (fatigue). Reversed in several recent rounds.
 
