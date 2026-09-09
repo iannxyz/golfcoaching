@@ -189,3 +189,35 @@ def test_severity_handles_a_round_with_no_doubles():
     clean = Round(date="2026-01-01", score=74, par=72, holes=18,
                   birdies=0, pars=16, bogeys=2, doubles_or_worse=0)
     assert model.disaster_severity([clean]) == 0.0
+
+
+# --- hand-logged rounds must reach the analysis ----------------------------
+
+def test_a_hand_logged_round_is_a_full_round(tmp_path):
+    """Regression: a round logged before the next app export was dropped.
+
+    ``add_round`` left ``holes`` blank, so ``Round.is_full`` was False and every
+    analysis silently skipped the round -- including the one just logged.
+    """
+    args = add_round.parse_args([
+        "--date", "2026-09-08", "--course", "Enagic at Eastlake",
+        "--score", "86", "--front", "46", "--back", "40",
+    ])
+    assert add_round.to_row(args)["holes"] == 18
+
+
+def test_the_newest_round_in_the_real_log_is_analysable():
+    rounds = model.load()
+    assert rounds[-1].is_full, f"{rounds[-1].date} dropped from analysis"
+    assert rounds[-1].round_underneath is not None
+
+
+@pytest.mark.parametrize("counts, ok", [
+    ({"birdies": 1, "pars": 4, "bogeys": 12, "doubles_or_worse": 1}, True),
+    ({"birdies": 1, "pars": 4, "bogeys": 11, "doubles_or_worse": 1}, False),
+    ({"birdies": 1, "pars": 4}, True),          # partial set is not checked
+    ({}, True),
+])
+def test_hole_counts_must_total_the_holes_played(counts, ok):
+    problems = add_round.validate({"score": 86, "holes": 18, **counts})
+    assert (problems == []) is ok, problems

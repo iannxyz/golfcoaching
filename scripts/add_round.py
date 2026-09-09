@@ -25,9 +25,10 @@ ROOT = Path(__file__).resolve().parent.parent
 LOG = ROOT / "data" / "raw" / "round-log.csv"
 
 COLUMNS = [
-    "date", "course", "tee", "yards", "par", "score", "to_par", "front", "back",
-    "fairways_hit", "fairways_total", "gir", "putts", "three_putts",
-    "penalties", "up_down_pct", "doubles_or_worse",
+    "date", "course", "tee", "yards", "par", "holes", "score", "to_par",
+    "front", "back", "fairways_hit", "fairways_total", "gir", "putts",
+    "three_putts", "penalties", "up_down_pct",
+    "birdies", "pars", "bogeys", "doubles_or_worse",
     "greens_firm", "green_speed", "wind", "tee_club", "notes",
 ]
 
@@ -41,6 +42,10 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--tee", default="")
     p.add_argument("--yards", type=int)
     p.add_argument("--par", type=int, default=72)
+    # Without this a hand-logged round has no hole count, Round.is_full is
+    # False, and the round is silently dropped from every analysis until the
+    # next app export happens to contain it.
+    p.add_argument("--holes", type=int, default=18)
     p.add_argument("--front", type=int)
     p.add_argument("--back", type=int)
     p.add_argument("--fairways", type=int, help="fairways hit")
@@ -51,6 +56,11 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--penalties", type=int)
     p.add_argument("--up-down", type=float, help="up-and-down percentage")
     p.add_argument("--doubles", type=int, help="holes at double bogey or worse")
+    # The four hole counts drive round_underneath, the headline metric. Pass
+    # all four or none -- validate() rejects a partial set that cannot total.
+    p.add_argument("--birdies", type=int)
+    p.add_argument("--pars", type=int)
+    p.add_argument("--bogeys", type=int)
     p.add_argument("--greens-firm", choices=("soft", "medium", "firm"),
                    help="did approach shots check, or bounce and release?")
     p.add_argument("--green-speed", choices=("slow", "medium", "fast"))
@@ -66,12 +76,13 @@ def parse_args(argv=None) -> argparse.Namespace:
 def to_row(a: argparse.Namespace) -> dict:
     row = {
         "date": a.date, "course": a.course, "tee": a.tee,
-        "yards": a.yards, "par": a.par, "score": a.score,
+        "yards": a.yards, "par": a.par, "holes": a.holes, "score": a.score,
         "to_par": a.score - a.par if a.par else None,
         "front": a.front, "back": a.back,
         "fairways_hit": a.fairways, "fairways_total": a.fairways_total,
         "gir": a.gir, "putts": a.putts, "three_putts": a.three_putts,
         "penalties": a.penalties, "up_down_pct": a.up_down,
+        "birdies": a.birdies, "pars": a.pars, "bogeys": a.bogeys,
         "doubles_or_worse": a.doubles,
         "greens_firm": a.greens_firm, "green_speed": a.green_speed,
         "wind": a.wind, "tee_club": a.tee_club, "notes": a.notes,
@@ -99,6 +110,14 @@ def validate(row: dict) -> list[str]:
     ud = row.get("up_down_pct")
     if ud not in ("", None) and not 0 <= float(ud) <= 100:
         problems.append(f"up_down_pct={ud} is not a percentage")
+    counts = [row.get(k) for k in ("birdies", "pars", "bogeys", "doubles_or_worse")]
+    given = [c for c in counts if c not in ("", None)]
+    if given and len(given) == 4:
+        holes = int(row.get("holes") or 18)
+        if sum(int(c) for c in given) != holes:
+            problems.append(
+                f"birdies+pars+bogeys+doubles = {sum(int(c) for c in given)}, "
+                f"not {holes}")
     return problems
 
 
