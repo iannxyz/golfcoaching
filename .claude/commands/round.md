@@ -25,6 +25,7 @@ Pull out:
 | up-and-down % | stats page |
 | doubles or worse | count them off the scorecard row |
 | green firmness and speed | **ask** — never on the card |
+| putts made / faced from 5-15 ft | **ask** — the app has no such stat |
 | club off the tee | **ask** if the round is unusual |
 
 If he typed the numbers instead of attaching images, use those. If something is
@@ -60,6 +61,13 @@ number through. It then rebuilds `data/rounds.csv` and `TRENDS.md`.
 Notes matter. Record fatigue, food, wind, first visit to the course, what the
 driver was doing, and any club he switched to. Those explain more of his
 variance than the swing does.
+
+**Ask how many putts he holed from 5-15 feet, and how many he faced.** Total
+putts cannot distinguish a missed par putt from a good lag — both end as a
+two-putt — so a round can lose six strokes on the greens with the putt count
+barely moving. That is why putts correlate with score at R² = 0.06 here while
+being the thing he most often *feels*. If he can only estimate, an estimate is
+still worth recording; note in the notes that it is one.
 
 **Always ask about green firmness and what he hit off the tee** — neither is on
 a scorecard, and both change the meaning of the stats completely:

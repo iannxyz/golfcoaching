@@ -127,15 +127,24 @@ club change that the numbers could not show. Ask before concluding.
 
 ## Short Game / Technique Notes
 
-- **Chip proximity, not chip technique, is the up-and-down number.** Confirmed by him
-  on 2026-09-08: approaches were manageable, but he "can't leave chips closer than 5 ft",
-  then missed everything from 5-15 ft. That is the whole explanation — at *tour* make
-  rates a chip to 12 ft converts 31% of the time and a chip to 4 ft converts 88%. His
-  33% career average is exactly what chipping to ~12 ft produces. He is not missing
-  makeable putts; he is not leaving makeable putts.
-  **Practice target: a 3-foot circle, not the hole.** Pick whichever shot rolls closest
-  (usually the 8-iron bump-and-run), not the most impressive one. `scripts/shortgame.py`
-  prints the proximity-to-conversion table.
+- **Chip proximity is the long-run driver of his up-and-down rate.** At tour make rates
+  a chip to 12 ft converts 31% and one to 4 ft converts 88%, and his 33% career average
+  is what chipping to ~12 ft produces. Practice target: a **3-foot circle**, not the
+  hole, taking whichever shot rolls closest (usually the 8-iron bump-and-run).
+  `scripts/shortgame.py` prints the table.
+  **Caveat, and it matters:** this is an inference from a career *average*, not a
+  measurement of any single round. On 2026-09-08 he reported chips inside 5-10 ft and
+  missed makeable par putts all day — projecting the career proximity figure onto that
+  round produced a wrong diagnosis. Do not attribute a specific round from an aggregate
+  rate; ask what actually happened.
+- **Total putts is close to useless for him and the number he most often feels.** A
+  missed 8-footer for par and a well-lagged two-putt are both "2 putts", so a round can
+  lose six strokes on the greens with the count barely moving (2026-09-08: 36 putts
+  against a 33.6 average, while every tee-to-green stat was at or above average).
+  Hence putts vs score R² = 0.06 across 94 rounds. **`putts_made_5_15` /
+  `putts_faced_5_15` are now captured** — make rate at scoring distance is the missing
+  measurement, and `/round` asks for it. Until several rounds of it exist, do not
+  adjudicate "was it putting or chipping" from the stats.
 - **Duff and thin are the same low-point error.** Fix: sternum over/ahead of the ball, eyes down through contact, weight slightly forward, don't hang back and scoop.
 - **Wedge selection system:**
   - Tight fairway lie + green to work with → **8-iron bump-and-run** (nearly duff-proof)

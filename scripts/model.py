@@ -68,6 +68,8 @@ class Round:
     pars: int | None = None
     bogeys: int | None = None
     doubles_or_worse: int | None = None
+    putts_made_5_15: int | None = None
+    putts_faced_5_15: int | None = None
     greens_firm: str = ""
     green_speed: str = ""
     wind: str = ""
@@ -110,6 +112,18 @@ class Round:
         return self.score - (d - self.doubles_or_worse)
 
     @property
+    def make_rate_5_15(self) -> float | None:
+        """Make rate from scoring distance -- the stat total putts cannot see.
+
+        A missed eight-footer for par and a well-lagged two-putt both count as
+        two putts, so a round can lose six strokes on the greens without the
+        putt count moving. This is the number that actually moves the score.
+        """
+        if not self.putts_faced_5_15:
+            return None
+        return (self.putts_made_5_15 or 0) / self.putts_faced_5_15
+
+    @property
     def scrambling_holes(self) -> int | None:
         if self.gir is None:
             return None
@@ -139,6 +153,8 @@ def load(path: Path = ROUNDS_CSV) -> list[Round]:
                 birdies=_num(r.get("birdies"), int), pars=_num(r.get("pars"), int),
                 bogeys=_num(r.get("bogeys"), int),
                 doubles_or_worse=_num(r.get("doubles_or_worse"), int),
+                putts_made_5_15=_num(r.get("putts_made_5_15"), int),
+                putts_faced_5_15=_num(r.get("putts_faced_5_15"), int),
                 greens_firm=r.get("greens_firm", ""),
                 green_speed=r.get("green_speed", ""),
                 wind=r.get("wind", ""), tee_club=r.get("tee_club", ""),

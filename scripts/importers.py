@@ -39,6 +39,7 @@ FIELDS = [
     "gir", "gir_total", "gir_short", "gir_long", "gir_left", "gir_right",
     "putts", "three_putts", "penalties", "up_down_pct",
     "birdies", "pars", "bogeys", "doubles_or_worse",
+    "putts_made_5_15", "putts_faced_5_15",
     "greens_firm", "green_speed", "wind", "tee_club",
     "app_handicap", "source", "notes",
 ]

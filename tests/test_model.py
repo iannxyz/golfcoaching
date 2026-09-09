@@ -221,3 +221,26 @@ def test_the_newest_round_in_the_real_log_is_analysable():
 def test_hole_counts_must_total_the_holes_played(counts, ok):
     problems = add_round.validate({"score": 86, "holes": 18, **counts})
     assert (problems == []) is ok, problems
+
+
+# --- make rate at scoring distance -----------------------------------------
+
+def test_make_rate_needs_a_denominator():
+    assert Round(date="2026-09-08").make_rate_5_15 is None
+    assert Round(date="2026-09-08", putts_made_5_15=0).make_rate_5_15 is None
+
+
+def test_make_rate_reads_a_blank_round_as_zero_not_missing():
+    r = Round(date="2026-09-08", putts_faced_5_15=10, putts_made_5_15=0)
+    assert r.make_rate_5_15 == 0.0
+
+
+def test_make_rate_computes():
+    r = Round(date="2026-09-08", putts_faced_5_15=8, putts_made_5_15=2)
+    assert r.make_rate_5_15 == pytest.approx(0.25)
+
+
+def test_more_made_than_faced_is_rejected():
+    problems = add_round.validate(
+        {"score": 86, "putts_made_5_15": 6, "putts_faced_5_15": 4})
+    assert any("exceeds" in p for p in problems)

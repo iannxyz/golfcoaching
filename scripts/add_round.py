@@ -29,6 +29,7 @@ COLUMNS = [
     "front", "back", "fairways_hit", "fairways_total", "gir", "putts",
     "three_putts", "penalties", "up_down_pct",
     "birdies", "pars", "bogeys", "doubles_or_worse",
+    "putts_made_5_15", "putts_faced_5_15",
     "greens_firm", "green_speed", "wind", "tee_club", "notes",
 ]
 
@@ -61,6 +62,13 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--birdies", type=int)
     p.add_argument("--pars", type=int)
     p.add_argument("--bogeys", type=int)
+    # Total putts cannot tell a missed par putt from a good lag -- both leave a
+    # two-putt. Make rate at scoring distance is the number that moves the score,
+    # and it is the one stat the app does not provide.
+    p.add_argument("--putts-made-5-15", type=int,
+                   help="putts holed from roughly 5-15 ft")
+    p.add_argument("--putts-faced-5-15", type=int,
+                   help="putts attempted from roughly 5-15 ft")
     p.add_argument("--greens-firm", choices=("soft", "medium", "firm"),
                    help="did approach shots check, or bounce and release?")
     p.add_argument("--green-speed", choices=("slow", "medium", "fast"))
@@ -83,6 +91,8 @@ def to_row(a: argparse.Namespace) -> dict:
         "gir": a.gir, "putts": a.putts, "three_putts": a.three_putts,
         "penalties": a.penalties, "up_down_pct": a.up_down,
         "birdies": a.birdies, "pars": a.pars, "bogeys": a.bogeys,
+        "putts_made_5_15": a.putts_made_5_15,
+        "putts_faced_5_15": a.putts_faced_5_15,
         "doubles_or_worse": a.doubles,
         "greens_firm": a.greens_firm, "green_speed": a.green_speed,
         "wind": a.wind, "tee_club": a.tee_club, "notes": a.notes,
@@ -110,6 +120,9 @@ def validate(row: dict) -> list[str]:
     ud = row.get("up_down_pct")
     if ud not in ("", None) and not 0 <= float(ud) <= 100:
         problems.append(f"up_down_pct={ud} is not a percentage")
+    made, faced = row.get("putts_made_5_15"), row.get("putts_faced_5_15")
+    if made not in ("", None) and faced not in ("", None) and int(made) > int(faced):
+        problems.append(f"putts made {made} exceeds putts faced {faced}")
     counts = [row.get(k) for k in ("birdies", "pars", "bogeys", "doubles_or_worse")]
     given = [c for c in counts if c not in ("", None)]
     if given and len(given) == 4:
