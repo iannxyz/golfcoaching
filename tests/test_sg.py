@@ -237,3 +237,22 @@ def test_a_chip_that_misses_the_green_cannot_be_holed():
     assert shortgame.up_and_down_rate(5, green_hit_rate=0.0) == 0.0
     assert (shortgame.up_and_down_rate(5, 0.5)
             == pytest.approx(shortgame.up_and_down_rate(5) * 0.5))
+
+
+def test_three_putt_rate_is_the_complement_of_the_make():
+    import shortgame
+    for d in (3, 5, 8):
+        assert (shortgame.three_putt_rate(d)
+                == pytest.approx(1 - shortgame.make_rate(d)))
+
+
+def test_leaving_it_closer_means_fewer_three_putts():
+    import shortgame
+    assert shortgame.three_putt_rate(3) < shortgame.three_putt_rate(6) < \
+        shortgame.three_putt_rate(10)
+
+
+def test_implied_leave_inverts_the_three_putt_rate():
+    import shortgame
+    for d in (3, 5, 6, 8):
+        assert shortgame.implied_leave(shortgame.three_putt_rate(d)) == d

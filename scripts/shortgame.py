@@ -15,6 +15,11 @@ rate -- his will be lower at every distance, which only sharpens the conclusion.
 
     PYTHONPATH=scripts python3 scripts/shortgame.py
     PYTHONPATH=scripts python3 scripts/shortgame.py 10    # 10 missed greens
+
+The same arithmetic runs the lag putt. A three-putt is a first putt that
+finishes too far away, so ``three_putt_rate(leave) = 1 - make_rate(leave)``.
+Chips and lags are one skill wearing two hats: how close the first stroke
+finishes, not how well the second one is struck.
 """
 
 from __future__ import annotations
@@ -40,6 +45,16 @@ def up_and_down_rate(feet: float, green_hit_rate: float = 1.0) -> float:
     thinned chip that never gets there cannot be holed.
     """
     return green_hit_rate * make_rate(feet)
+
+
+def three_putt_rate(leave_feet: float) -> float:
+    """Chance of three-putting after a first putt that finishes ``leave_feet`` out."""
+    return 1.0 - make_rate(leave_feet)
+
+
+def implied_leave(three_putt_pct: float) -> float:
+    """How far the first putt is finishing, given an observed three-putt rate."""
+    return min(DISTANCES, key=lambda d: abs(three_putt_rate(d) - three_putt_pct))
 
 
 def main(argv: list[str]) -> int:
@@ -68,6 +83,22 @@ def main(argv: list[str]) -> int:
         print("\nThe lever is proximity. Going from ten feet to four roughly "
               "doubles the up-and-down rate\nwithout holing a single putt more "
               "than a tour player would from the same distance.")
+
+    print("\n\nThe lag putt is the same arithmetic. A three-putt is a first "
+          "putt left too far out.\n")
+    print(f"{'first putt finishes':>20}  {'three-putt rate':>16}")
+    for d in (2, 3, 4, 5, 6, 8, 10):
+        print(f"{str(d) + ' ft':>20}  {three_putt_rate(d):>15.0%}")
+
+    tp = [r for r in rounds if r.three_putts is not None and r.putts]
+    if tp:
+        recent = tp[-10:]
+        avg = sum(r.three_putts for r in recent) / len(recent)
+        print(f"\nIan averages {avg:.1f} three-putts a round over the last "
+              f"{len(recent)} measured rounds.")
+        print("Three-putts are not a stroke problem either. They are the same "
+              "distance-control problem\nas the chipping, measured on a "
+              "different shot.")
     return 0
 
 

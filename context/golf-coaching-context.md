@@ -112,6 +112,11 @@ club change that the numbers could not show. Ask before concluding.
 
 - **"First mistake = bogey is now the goal."** After trouble (OB, water, bad lie), reset the target to bogey. Single most important damage-control rule.
 - **"Past the hole is fine, short is the problem."** Fixes lag-putt deceleration.
+  This mantra and the chipping one are now known to be **the same problem**: on
+  2026-09-08 he left chips at ~12 ft and lag putts at ~6 ft, and neither is a stroke
+  or a read issue. Three-putt rate is just `1 - make%` of wherever the first putt
+  finishes (6 ft = 34%, 3 ft = 4%). Everything is finishing about twice as far out as
+  it needs to. Coach proximity, on both shots, with a target circle — not technique.
 - **One more club on approaches** — his on-course yardages run shorter than his range numbers. Applies to wedges too: don't max out a 50° from 110, hit a smooth 46°.
 - **Play the lie, not the number.** From thick rough, take loft and advance the ball; don't ask a low-loft club to reach a number.
 - **No par 5 in two** unless the up-and-down game is hot. Par-5 average has been the difference in several rounds (5.3 on good days, 6.0–6.5 on bad).
