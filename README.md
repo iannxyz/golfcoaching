@@ -79,6 +79,7 @@ hand-edit them — they are rewritten on every import.
 | `sg.py` | Strokes gained — benchmark tables and both estimators |
 | `calibrate.py` | Checks the handicap model against published scoring averages |
 | `whatif.py` | What one more round at a given score does to the index |
+| `shortgame.py` | What chip proximity is worth, in up-and-downs |
 
 ```bash
 PYTHONPATH=scripts python3 scripts/whatif.py            # table of next-round outcomes

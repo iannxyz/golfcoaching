@@ -122,6 +122,15 @@ club change that the numbers could not show. Ask before concluding.
 
 ## Short Game / Technique Notes
 
+- **Chip proximity, not chip technique, is the up-and-down number.** Confirmed by him
+  on 2026-09-08: approaches were manageable, but he "can't leave chips closer than 5 ft",
+  then missed everything from 5-15 ft. That is the whole explanation — at *tour* make
+  rates a chip to 12 ft converts 31% of the time and a chip to 4 ft converts 88%. His
+  33% career average is exactly what chipping to ~12 ft produces. He is not missing
+  makeable putts; he is not leaving makeable putts.
+  **Practice target: a 3-foot circle, not the hole.** Pick whichever shot rolls closest
+  (usually the 8-iron bump-and-run), not the most impressive one. `scripts/shortgame.py`
+  prints the proximity-to-conversion table.
 - **Duff and thin are the same low-point error.** Fix: sternum over/ahead of the ball, eyes down through contact, weight slightly forward, don't hang back and scoop.
 - **Wedge selection system:**
   - Tight fairway lie + green to work with → **8-iron bump-and-run** (nearly duff-proof)

@@ -211,3 +211,29 @@ def test_notes_explain_what_could_not_be_separated():
     r = sg.sg_from_scorecard(holes, handicap=12)
     assert any("putts" in n for n in r.notes)
     assert r.method == "estimated"
+
+
+# --- chip proximity --------------------------------------------------------
+
+def test_make_rate_falls_with_distance():
+    import shortgame
+    rates = [shortgame.make_rate(d) for d in (3, 5, 8, 10, 15, 20)]
+    assert rates == sorted(rates, reverse=True)
+
+
+def test_a_tap_in_is_nearly_certain_and_a_long_one_is_not():
+    import shortgame
+    assert shortgame.make_rate(3) > 0.9
+    assert shortgame.make_rate(20) < 0.2
+
+
+def test_halving_the_chip_distance_roughly_doubles_the_up_and_down():
+    import shortgame
+    assert shortgame.make_rate(4) > 2 * shortgame.make_rate(12)
+
+
+def test_a_chip_that_misses_the_green_cannot_be_holed():
+    import shortgame
+    assert shortgame.up_and_down_rate(5, green_hit_rate=0.0) == 0.0
+    assert (shortgame.up_and_down_rate(5, 0.5)
+            == pytest.approx(shortgame.up_and_down_rate(5) * 0.5))
