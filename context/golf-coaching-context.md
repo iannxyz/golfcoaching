@@ -1,6 +1,6 @@
 # Golf Coaching Context — Ian
 
-**Last updated:** 2026-09-09
+**Last updated:** 2026-09-16
 
 **Purpose:** Carries forward an ongoing golf-coaching relationship so a new session (or an agent) can pick up seamlessly. Ian submits rounds as app screenshots (scorecard + stats pages). He wants direct, honest, data-driven coaching — encouragement paired with real accountability. Voice-to-text messages sometimes have transcription errors (e.g. "pug" = putt, "t" = tee).
 
@@ -12,7 +12,8 @@ Companion file: `round-log.csv` — structured round-by-round data.
 
 - **Age / level:** 27. Handicap index 22.6 (Aug 2025) → **9.2 (Sep 2026)**, computed as the
   best 8 of the last 20 differentials in `data/rounds.csv`. Trajectory: 12.3 (May),
-  11.4 (1 Aug), 9.2 (30 Aug), **8.7 (8 Sep)**.
+  11.4 (1 Aug), 9.2 (30 Aug), 8.7 (8 Sep), **8.9 (16 Sep)** — the rise is the window
+  turning over, not a decline: the 79 from 2026-05-28 aged out of the last 20.
 - **Goals:** Break 80 consistently; long-term mid-single-digit handicap.
 - **Based:** San Diego. Relocating to Mexico City (expect a temporary dip — unfamiliar courses have cost 4–8 strokes every time).
 - **Swing speed:** 100–106 mph. Steep angle of attack.
@@ -139,8 +140,21 @@ club change that the numbers could not show. Ask before concluding.
   rate; ask what actually happened.
 - **Total putts is close to useless for him and the number he most often feels.** A
   missed 8-footer for par and a well-lagged two-putt are both "2 putts", so a round can
-  lose six strokes on the greens with the count barely moving (2026-09-08: 36 putts
-  against a 33.6 average, while every tee-to-green stat was at or above average).
+  lose six strokes on the greens with the count barely moving. **Demonstrated directly
+  on 2026-09-08 and 2026-09-11**, three days apart at Eastlake off the same tees:
+
+  | | 09-08 | 09-11 |
+  |---|---|---|
+  | Putts | **36** | **36** |
+  | Doubles | **1** | **1** |
+  | GIR | 8 | 10 |
+  | Pars | **4** | **10** |
+  | Score | **86** | **81** |
+
+  Same putt count, same disaster count, five strokes apart and six pars apart. Nothing
+  in the recorded stats distinguishes those rounds — which is exactly what he described
+  after the 86 ("could not putt for the life of me") and exactly what the putt count
+  cannot show.
   Hence putts vs score R² = 0.06 across 94 rounds. **`putts_made_5_15` /
   `putts_faced_5_15` are now captured** — make rate at scoring distance is the missing
   measurement, and `/round` asks for it. Until several rounds of it exist, do not
