@@ -54,6 +54,10 @@ COURSE_ALIASES = {
     "enagic at eastlake": "Enagic at Eastlake",
     "club social y deportivo campestre de tijuana a c": "Campestre de Tijuana",
     "campestre de tijuana": "Campestre de Tijuana",
+    "miami beach gc": "Miami Beach Golf Club",
+    "miami beach golf club": "Miami Beach Golf Club",
+    "torrey pines north": "Torrey Pines North",
+    "torrey pines golf course": "Torrey Pines North",
 }
 
 
