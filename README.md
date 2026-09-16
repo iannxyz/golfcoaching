@@ -80,6 +80,7 @@ hand-edit them — they are rewritten on every import.
 | `calibrate.py` | Checks the handicap model against published scoring averages |
 | `whatif.py` | What one more round at a given score does to the index |
 | `shortgame.py` | What chip proximity is worth, in up-and-downs |
+| `export_rounds.py` | Portable hole-by-hole export, for moving between apps |
 
 ```bash
 PYTHONPATH=scripts python3 scripts/whatif.py            # table of next-round outcomes
@@ -119,6 +120,20 @@ because `calibrate.py` uses the same tables to sanity-check the handicap model
 (currently accurate to 0.6 strokes against published scoring averages). Until
 then, the doubles model is the one that earns its keep. Reaching for strokes
 gained when the data can't support it would be precision theatre.
+
+## Portability
+
+The repo is the system of record; 18Birdies and TheGrint are capture devices.
+Neither offers a self-serve bulk import, so if you switch apps the history only
+survives because it lives here.
+
+```bash
+PYTHONPATH=scripts python3 scripts/export_rounds.py
+```
+
+Writes `export/rounds-holes.csv` (one row per round, H1..H18 plus totals — what
+a bulk loader or a spreadsheet paste wants) and `export/rounds-summary.csv`.
+`export/` is generated and git-ignored.
 
 ## Obsidian
 

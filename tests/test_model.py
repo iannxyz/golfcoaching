@@ -244,3 +244,25 @@ def test_more_made_than_faced_is_rejected():
     problems = add_round.validate(
         {"score": 86, "putts_made_5_15": 6, "putts_faced_5_15": 4})
     assert any("exceeds" in p for p in problems)
+
+
+# --- export ----------------------------------------------------------------
+
+def test_export_writes_both_files_with_every_round(tmp_path):
+    import export_rounds
+    export_rounds.main(["--out", str(tmp_path)])
+    import csv as _csv
+    holes = list(_csv.DictReader((tmp_path / "rounds-holes.csv").open()))
+    summary = list(_csv.DictReader((tmp_path / "rounds-summary.csv").open()))
+    assert len(summary) == len(model.load())
+    assert len(holes) > 95
+    row = holes[-1]
+    assert sum(int(row[f"H{i}"]) for i in range(1, 19)) == int(row["score"])
+
+
+def test_export_respects_since(tmp_path):
+    import export_rounds
+    export_rounds.main(["--since", "2026-09-01", "--out", str(tmp_path)])
+    import csv as _csv
+    rows = list(_csv.DictReader((tmp_path / "rounds-summary.csv").open()))
+    assert rows and all(r["date"] >= "2026-09-01" for r in rows)
