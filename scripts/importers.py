@@ -33,7 +33,7 @@ RAW = ROOT / "data" / "raw"
 
 #: Canonical column order for ``data/rounds.csv``.
 FIELDS = [
-    "date", "course", "tee", "yards", "par", "holes", "score", "to_par",
+    "date", "round_id", "course", "tee", "yards", "par", "holes", "score", "to_par",
     "front", "back", "fairways_hit", "fairways_total",
     "fairways_left", "fairways_right",
     "gir", "gir_total", "gir_short", "gir_long", "gir_left", "gir_right",
@@ -67,6 +67,14 @@ def _date(ts_ms: int) -> str:
     return dt.datetime.utcfromtimestamp(ts_ms / 1000).date().isoformat()
 
 
+def _as_int(v):
+    """Hand-logged CSV values arrive as strings; compare numbers as numbers."""
+    try:
+        return int(v)
+    except (TypeError, ValueError):
+        return None
+
+
 def _int(v):
     """18Birdies writes 0 for 'not recorded' as well as for a real zero.
 
@@ -77,6 +85,12 @@ def _int(v):
 
 
 def load_18birdies(path: Path) -> dict[str, dict]:
+    """Keyed by the app's own round id, NOT by date.
+
+    He plays twice in a day often enough to matter -- 2026-05-23 is an 89 and a
+    91, and 2026-05-30 is a nine-hole 41 and an eighteen-hole 85. Keying on date
+    silently kept one of each and dropped six real rounds.
+    """
     data = json.loads(path.read_text())
     my = data["myData"]
     clubs = {c["clubId"]: c["name"] for c in my["clubData"]["playedClubs"]}
@@ -88,7 +102,8 @@ def load_18birdies(path: Path) -> dict[str, dict]:
             continue                      # a round posted with no scorecard
         s = r["stats"]
         date = _date(r["timestamp"])
-        out[date] = {
+        out[r["id"]] = {
+            "round_id": r["id"],
             "date": date,
             "course": canonical_course(clubs.get(r["clubId"]["id"], "")),
             "holes": holes,
@@ -113,8 +128,28 @@ def load_18birdies(path: Path) -> dict[str, dict]:
             "app_handicap": r.get("roundHandicap"),
             "source": "18birdies",
             "_holeStrokes": strokes,
+            "_holes_sum": sum(strokes),
         }
     return out
+
+
+def pick_for_csv_row(candidates: list[dict], row: dict) -> dict | None:
+    """Which app round a hand-logged row refers to, when a day holds several.
+
+    Prefer an exact score match, then the one with the most holes -- a hand log
+    entry describes the real round of the day, not the nine he added on.
+    """
+    if not candidates:
+        return None
+    try:
+        want = int(row.get("score", ""))
+    except (TypeError, ValueError):
+        want = None
+    if want is not None:
+        exact = [c for c in candidates if c.get("score") == want]
+        if exact:
+            return exact[0]
+    return max(candidates, key=lambda c: c.get("holes") or 0)
 
 
 def load_csv_log(path: Path) -> dict[str, dict]:
@@ -146,29 +181,70 @@ def _counts_total(row: dict, holes: int) -> bool:
 
 def merge(app: dict[str, dict], hand: dict[str, dict],
           conflicts: list[str] | None = None) -> list[dict]:
-    """Union of both sources by date. The hand-kept CSV wins, except on the
-    hole counts, where a self-consistent app tally beats a hand tally."""
+    """Union of both sources. The hand-kept CSV wins, with two exceptions.
+
+    App rounds are keyed by round id and hand-logged rows by date, so each CSV
+    row is attached to one app round via :func:`pick_for_csv_row`; the other
+    rounds that day pass through untouched rather than being overwritten.
+
+    The CSV loses on the four hole counts when the app's tally is self-
+    consistent, and on ``score`` when the app's hole-by-hole strokes add up to
+    its own total and the hand figure disagrees. Both conflicts are reported.
+    """
+    by_date: dict[str, list[dict]] = {}
+    for r in app.values():
+        by_date.setdefault(r["date"], []).append(r)
+
+    claimed: dict[str, dict] = {}                 # round_id -> hand row
+    for date, row in hand.items():
+        pick = pick_for_csv_row(by_date.get(date, []), row)
+        if pick is not None:
+            claimed[pick["round_id"]] = row
+
     rows = []
-    for date in sorted(set(app) | set(hand)):
-        a, h = app.get(date), hand.get(date)
-        row = dict(a or {"date": date})
+    for a in app.values():
+        row = dict(a)
+        h = claimed.get(a["round_id"])
         if h:
-            row.update(h)                          # CSV overrides by default
-        if a and h:
+            row.update(h)
             row["source"] = "18birdies+csv"
             holes = a.get("holes") or 18
-            # Restore the app's counts if they add up and the merged ones do not.
             if _counts_total(a, holes) and not _counts_total(row, holes):
                 for k in HOLE_COUNTS:
                     if k in a:
-                        if conflicts is not None and str(h.get(k, "")) not in ("", str(a[k])):
+                        if conflicts is not None and _as_int(h.get(k)) not in (None, a[k]):
                             conflicts.append(
-                                f"{date}: {k} logged as {h[k]}, app says {a[k]} "
-                                f"(app counts total {holes}); using {a[k]}")
+                                f"{a['date']}: {k} logged as {h[k]}, app says "
+                                f"{a[k]} (app counts total {holes}); using {a[k]}")
                         row[k] = a[k]
-        elif h:
-            row["source"] = "csv"
+            # The scorecard is the arbiter of the score itself. Hand-logged
+            # values are strings, so coerce before comparing or every round
+            # reads as a conflict with itself.
+            if (a.get("_holes_sum") == a.get("score")
+                    and _as_int(row.get("score")) not in (None, a["score"])):
+                if conflicts is not None:
+                    conflicts.append(
+                        f"{a['date']}: score logged as {row.get('score')}, "
+                        f"app scorecard sums to {a['score']}; using {a['score']}")
+                row["score"] = a["score"]
+                row["to_par"] = None           # recomputed in derive()
         rows.append(row)
+
+    # Hand-logged rounds with no app counterpart at all.
+    for date, row in hand.items():
+        if not pick_for_csv_row(by_date.get(date, []), row):
+            rows.append({**row, "source": "csv"})
+
+    def order(r: dict) -> tuple:
+        # Hand-logged values arrive as strings; coerce before comparing.
+        def num(v, default=0):
+            try:
+                return int(v)
+            except (TypeError, ValueError):
+                return default
+        return (r["date"], -num(r.get("holes")), num(r.get("score")))
+
+    rows.sort(key=order)
     return rows
 
 
@@ -196,15 +272,17 @@ def write_rounds(rows: list[dict], path: Path) -> None:
 
 
 def write_holes(app: dict[str, dict], path: Path) -> None:
-    """Long-format hole-by-hole strokes: one row per hole played."""
+    """Long-format hole-by-hole strokes: one row per hole played.
+
+    ``round_id`` is carried so two rounds on one date stay distinguishable.
+    """
     with path.open("w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["date", "course", "hole", "strokes"])
-        for date in sorted(app):
-            r = app[date]
+        w.writerow(["date", "round_id", "course", "hole", "strokes"])
+        for r in sorted(app.values(), key=lambda x: (x["date"], x["round_id"])):
             for i, n in enumerate(r["_holeStrokes"], start=1):
                 if n:
-                    w.writerow([date, r["course"], i, n])
+                    w.writerow([r["date"], r["round_id"], r["course"], i, n])
 
 
 def main() -> int:

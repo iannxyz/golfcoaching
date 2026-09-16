@@ -128,12 +128,18 @@ Neither offers a self-serve bulk import, so if you switch apps the history only
 survives because it lives here.
 
 ```bash
-PYTHONPATH=scripts python3 scripts/export_rounds.py
+PYTHONPATH=scripts python3 scripts/export_rounds.py --clean
 ```
 
 Writes `export/rounds-holes.csv` (one row per round, H1..H18 plus totals — what
 a bulk loader or a spreadsheet paste wants) and `export/rounds-summary.csv`.
 `export/` is generated and git-ignored.
+
+`--clean` is `--full-18 --complete-stats --consistent`: 18-hole rounds only,
+with GIR and fairway data, whose hole scores sum to the recorded score. It does
+**not** remove statistical extremes. The 76 and the 105 are both real rounds,
+and a handicap computed from a log with the bad scores stripped out is a
+fiction — the best-8-of-20 formula already discards them.
 
 ## Obsidian
 

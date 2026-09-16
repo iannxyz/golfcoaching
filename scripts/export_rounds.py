@@ -37,13 +37,17 @@ SUMMARY_COLS = [
 
 
 def load_hole_scores() -> dict[str, dict[int, int]]:
-    """date -> {hole number: strokes}."""
+    """round id -> {hole number: strokes}.
+
+    Keyed by round id, not date: he plays twice in a day often enough that a
+    date key merges two scorecards into one.
+    """
     out: dict[str, dict[int, int]] = defaultdict(dict)
     if not HOLES_CSV.exists():
         return out
     with HOLES_CSV.open() as fh:
         for row in csv.DictReader(fh):
-            out[row["date"]][int(row["hole"])] = int(row["strokes"])
+            out[row["round_id"]][int(row["hole"])] = int(row["strokes"])
     return out
 
 
@@ -59,7 +63,17 @@ def main(argv=None) -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--since", help="only rounds on or after this date (YYYY-MM-DD)")
     ap.add_argument("--out", type=Path, default=OUT_DIR)
+    ap.add_argument("--full-18", action="store_true",
+                    help="drop rounds of fewer than 18 holes")
+    ap.add_argument("--complete-stats", action="store_true",
+                    help="drop rounds missing GIR or fairway data")
+    ap.add_argument("--consistent", action="store_true",
+                    help="drop rounds whose hole scores do not sum to the score")
+    ap.add_argument("--clean", action="store_true",
+                    help="all three of the above")
     args = ap.parse_args(argv)
+    if args.clean:
+        args.full_18 = args.complete_stats = args.consistent = True
 
     rounds = model.load()
     if args.since:
@@ -68,10 +82,24 @@ def main(argv=None) -> int:
 
     args.out.mkdir(parents=True, exist_ok=True)
 
-    with_holes, without = [], []
+    with_holes, without, dropped = [], [], []
     for r in rounds:
-        got = holes.get(r.date, {})
+        got = holes.get(r.round_id) or {}
         row = summary_row(r)
+
+        # Filters. Statistical extremes are deliberately NOT removed -- his 76
+        # and his 107 are both real golf, and a handicap computed from a log
+        # with the bad rounds stripped out is a fiction.
+        if args.full_18 and r.holes != 18:
+            dropped.append((r, f"{r.holes} holes"))
+            continue
+        if args.complete_stats and (r.gir is None or r.fairways_hit is None):
+            dropped.append((r, "no GIR or fairway data"))
+            continue
+        if args.consistent and got and sum(got.values()) != r.score:
+            dropped.append((r, f"holes sum to {sum(got.values())}, score {r.score}"))
+            continue
+
         if len(got) >= 9:
             row.update({f"H{i}": got.get(i, "") for i in range(1, 19)})
             with_holes.append(row)
@@ -106,6 +134,10 @@ def main(argv=None) -> int:
         print("  no hole detail: "
               + ", ".join(r["date"] for r in without[:10])
               + (" ..." if len(without) > 10 else ""))
+    if dropped:
+        print(f"\ndropped {len(dropped)}:")
+        for r, why in dropped:
+            print(f"  {r.date}  {r.course[:26]:26} {r.score:>4}  {why}")
     return 0
 
 

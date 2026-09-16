@@ -45,6 +45,7 @@ def _num(v, cast=float):
 @dataclass
 class Round:
     date: str
+    round_id: str = ""
     course: str = ""
     tee: str = ""
     score: int | None = None
@@ -135,7 +136,8 @@ def load(path: Path = ROUNDS_CSV) -> list[Round]:
     with path.open() as fh:
         for r in csv.DictReader(fh):
             rows.append(Round(
-                date=r["date"], course=r.get("course", ""), tee=r.get("tee", ""),
+                date=r["date"], round_id=r.get("round_id", ""),
+                course=r.get("course", ""), tee=r.get("tee", ""),
                 score=_num(r.get("score"), int), par=_num(r.get("par"), int),
                 holes=_num(r.get("holes"), int), yards=_num(r.get("yards"), int),
                 front=_num(r.get("front"), int), back=_num(r.get("back"), int),
@@ -161,7 +163,7 @@ def load(path: Path = ROUNDS_CSV) -> list[Round]:
                 app_handicap=_num(r.get("app_handicap")),
                 source=r.get("source", ""), notes=r.get("notes", ""),
             ))
-    return sorted(rows, key=lambda r: r.date)
+    return sorted(rows, key=lambda r: (r.date, r.round_id))
 
 
 # --------------------------------------------------------------------------

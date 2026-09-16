@@ -266,3 +266,45 @@ def test_export_respects_since(tmp_path):
     import csv as _csv
     rows = list(_csv.DictReader((tmp_path / "rounds-summary.csv").open()))
     assert rows and all(r["date"] >= "2026-09-01" for r in rows)
+
+
+def test_rounds_on_the_same_day_are_both_kept():
+    """Regression: keying app rounds by date dropped six real rounds.
+
+    2026-05-23 is an 89 and a 91; 2026-05-26 is two separate nines.
+    """
+    rounds = model.load()
+    same_day = [r for r in rounds if r.date == "2026-05-23"]
+    assert len(same_day) == 2, [r.score for r in same_day]
+    assert {r.score for r in same_day} == {89, 91}
+    assert len({r.round_id for r in same_day}) == 2
+
+
+def test_every_round_has_a_distinct_id():
+    ids = [r.round_id for r in model.load() if r.round_id]
+    assert len(ids) == len(set(ids))
+
+
+def test_clean_export_is_18_holes_with_complete_stats(tmp_path):
+    import csv as _csv
+    import export_rounds
+    export_rounds.main(["--clean", "--out", str(tmp_path)])
+    rows = list(_csv.DictReader((tmp_path / "rounds-holes.csv").open()))
+    assert rows
+    for r in rows:
+        assert r["holes"] == "18"
+        assert r["gir"] and r["fairways_hit"] and r["putts"]
+        assert sum(int(r[f"H{i}"]) for i in range(1, 19)) == int(r["score"])
+
+
+def test_clean_export_keeps_the_extremes():
+    """Best and worst rounds are real golf, not outliers to be filtered."""
+    import csv as _csv
+    import export_rounds
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        export_rounds.main(["--clean", "--out", d])
+        rows = list(_csv.DictReader(open(f"{d}/rounds-holes.csv")))
+    scores = [int(r["score"]) for r in rows]
+    assert min(scores) == 76
+    assert max(scores) > 100
