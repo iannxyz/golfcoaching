@@ -52,6 +52,8 @@ class Round:
     par: int | None = None
     holes: int | None = None
     yards: int | None = None
+    course_rating: float | None = None
+    slope: int | None = None
     front: int | None = None
     back: int | None = None
     fairways_hit: int | None = None
@@ -113,6 +115,20 @@ class Round:
         return self.score - (d - self.doubles_or_worse)
 
     @property
+    def differential(self) -> float | None:
+        """The real WHS score differential, when the course is rated.
+
+        ``(score - course rating) x 113 / slope``. This is exact; the course
+        offsets in ``whatif.py`` are an empirical stand-in derived from the
+        app's own per-round figure, and they ignore slope, so they overstate
+        the differential on a bad round and understate it on a good one.
+        Prefer this wherever rating and slope are known.
+        """
+        if self.score is None or self.course_rating is None or not self.slope:
+            return None
+        return round((self.score - self.course_rating) * 113 / self.slope, 1)
+
+    @property
     def make_rate_5_15(self) -> float | None:
         """Make rate from scoring distance -- the stat total putts cannot see.
 
@@ -140,6 +156,8 @@ def load(path: Path = ROUNDS_CSV) -> list[Round]:
                 course=r.get("course", ""), tee=r.get("tee", ""),
                 score=_num(r.get("score"), int), par=_num(r.get("par"), int),
                 holes=_num(r.get("holes"), int), yards=_num(r.get("yards"), int),
+                course_rating=_num(r.get("course_rating")),
+                slope=_num(r.get("slope"), int),
                 front=_num(r.get("front"), int), back=_num(r.get("back"), int),
                 fairways_hit=_num(r.get("fairways_hit"), int),
                 fairways_total=_num(r.get("fairways_total"), int),

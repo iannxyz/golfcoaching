@@ -25,7 +25,8 @@ ROOT = Path(__file__).resolve().parent.parent
 LOG = ROOT / "data" / "raw" / "round-log.csv"
 
 COLUMNS = [
-    "date", "course", "tee", "yards", "par", "holes", "score", "to_par",
+    "date", "course", "tee", "yards", "par", "course_rating", "slope",
+    "holes", "score", "to_par",
     "front", "back", "fairways_hit", "fairways_total", "gir", "putts",
     "three_putts", "penalties", "up_down_pct",
     "birdies", "pars", "bogeys", "doubles_or_worse",
@@ -47,6 +48,10 @@ def parse_args(argv=None) -> argparse.Namespace:
     # False, and the round is silently dropped from every analysis until the
     # next app export happens to contain it.
     p.add_argument("--holes", type=int, default=18)
+    # TheGrint shows the real WHS rating/slope on the scorecard header. With
+    # both, the handicap differential is exact instead of inferred.
+    p.add_argument("--course-rating", type=float, help="e.g. 70.4")
+    p.add_argument("--slope", type=int, help="e.g. 128")
     p.add_argument("--front", type=int)
     p.add_argument("--back", type=int)
     p.add_argument("--fairways", type=int, help="fairways hit")
@@ -85,6 +90,7 @@ def to_row(a: argparse.Namespace) -> dict:
     row = {
         "date": a.date, "course": a.course, "tee": a.tee,
         "yards": a.yards, "par": a.par, "holes": a.holes, "score": a.score,
+        "course_rating": a.course_rating, "slope": a.slope,
         "to_par": a.score - a.par if a.par else None,
         "front": a.front, "back": a.back,
         "fairways_hit": a.fairways, "fairways_total": a.fairways_total,
@@ -117,6 +123,12 @@ def validate(row: dict) -> list[str]:
     putts = row.get("putts")
     if putts not in ("", None) and not 18 <= int(putts) <= 50:
         problems.append(f"putts={putts} is outside 18..50")
+    slope = row.get("slope")
+    if slope not in ("", None) and not 55 <= int(slope) <= 155:
+        problems.append(f"slope={slope} is outside the legal 55..155")
+    cr = row.get("course_rating")
+    if cr not in ("", None) and not 55 <= float(cr) <= 85:
+        problems.append(f"course_rating={cr} is implausible")
     ud = row.get("up_down_pct")
     if ud not in ("", None) and not 0 <= float(ud) <= 100:
         problems.append(f"up_down_pct={ud} is not a percentage")

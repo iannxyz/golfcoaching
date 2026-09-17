@@ -52,6 +52,14 @@ Run the tests after any model change:
 PYTHONPATH=scripts pytest tests/ -q
 ```
 
+## Handicap differentials
+
+Where `course_rating` and `slope` are recorded, use `Round.differential` — it is
+the exact WHS figure. The per-course offsets in `whatif.py` are an empirical
+stand-in built from 18Birdies' own per-round number; they ignore slope and drift
+by about a stroke at the ends of the range. TheGrint prints rating and slope on
+every scorecard header, so new rounds should always carry them.
+
 ## Data honesty
 
 - A blank stat is better than a guessed one. `add_round.py` validates rather

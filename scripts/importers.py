@@ -33,7 +33,8 @@ RAW = ROOT / "data" / "raw"
 
 #: Canonical column order for ``data/rounds.csv``.
 FIELDS = [
-    "date", "round_id", "course", "tee", "yards", "par", "holes", "score", "to_par",
+    "date", "round_id", "course", "tee", "yards", "par", "course_rating",
+    "slope", "holes", "score", "to_par",
     "front", "back", "fairways_hit", "fairways_total",
     "fairways_left", "fairways_right",
     "gir", "gir_total", "gir_short", "gir_long", "gir_left", "gir_right",

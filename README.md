@@ -96,6 +96,13 @@ No dependencies beyond the standard library; `pytest` only for the tests.
 
 ## Two sources, one log
 
+(Three, from September 2026 — he moved to TheGrint, whose scorecard carries
+per-hole putts, per-hole GIR, miss direction and the real WHS course rating and
+slope. Where rating and slope are recorded, `Round.differential` is the exact
+WHS figure; the course offsets in `whatif.py` remain an empirical fallback for
+rounds without them, and they ignore slope, so they drift about a stroke on a
+bad round.)
+
 The 18Birdies archive is the backbone — every round, with hole-by-hole strokes,
 fairway and GIR splits by miss direction, and putts. The hand-kept CSV covers
 fewer rounds but carries what the app doesn't: tee played, penalty strokes,

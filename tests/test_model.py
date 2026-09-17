@@ -308,3 +308,32 @@ def test_clean_export_keeps_the_extremes():
     scores = [int(r["score"]) for r in rows]
     assert min(scores) == 76
     assert max(scores) > 100
+
+
+# --- WHS differential ------------------------------------------------------
+
+def test_differential_matches_the_whs_formula():
+    r = Round(date="2026-09-17", score=85, course_rating=70.4, slope=128)
+    assert r.differential == pytest.approx(12.9, abs=0.05)
+
+
+def test_differential_needs_rating_and_slope():
+    assert Round(date="x", score=85).differential is None
+    assert Round(date="x", score=85, course_rating=70.4).differential is None
+    assert Round(date="x", score=85, slope=128).differential is None
+
+
+def test_a_harder_slope_lowers_the_differential():
+    easy = Round(date="x", score=85, course_rating=70.4, slope=113)
+    hard = Round(date="x", score=85, course_rating=70.4, slope=140)
+    assert hard.differential < easy.differential
+
+
+@pytest.mark.parametrize("row, expected", [
+    ({"slope": 200}, "outside the legal"),
+    ({"slope": 40}, "outside the legal"),
+    ({"course_rating": 120}, "implausible"),
+])
+def test_rating_and_slope_are_validated(row, expected):
+    problems = add_round.validate({"score": 85, **row})
+    assert any(expected in p for p in problems), problems

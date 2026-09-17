@@ -11,8 +11,24 @@ Input: $ARGUMENTS
 ## 1. Get the numbers
 
 If screenshots or image paths were given, read them with the Read tool. Ian
-posts 18Birdies scorecard and stats pages — usually two images, sometimes more.
-Pull out:
+posts app scorecard and stats pages — usually two or three images.
+
+**He moved from 18Birdies to TheGrint in September 2026.** TheGrint's scorecard
+is richer and mostly removes the guesswork:
+
+| Field | Where it lives in TheGrint |
+|---|---|
+| course rating / slope | scorecard header, e.g. `70.4 / 128 WHS` — **record it**, it makes the differential exact |
+| score, front, back | `OUT` / `IN` / `TOTAL` columns |
+| par per hole | `PAR` row — count the doubles off this directly |
+| putts per hole | `PUTTS` row — three-putts and one-putts are countable, no need to ask |
+| GIR per hole | `GIR%` row: `◎` hit, `✗`/arrow missed |
+| fairways | `DRIVING` row: `◎` hit, arrows are the miss direction |
+| first-putt distance | `DISTANCE (ft)` row, when he records it |
+| up-and-down | `Par Saves` milestone tile, or compute: pars on non-GIR holes ÷ missed greens |
+| penalties | `PENALTIES` row — **ask what the letters mean**, they are not self-evident |
+
+Legacy 18Birdies layout (stats page tiles) if he posts an older screenshot:
 
 | Field | Where it lives |
 |---|---|
@@ -25,7 +41,7 @@ Pull out:
 | up-and-down % | stats page |
 | doubles or worse | count them off the scorecard row |
 | green firmness and speed | **ask** — never on the card |
-| putts made / faced from 5-15 ft | **ask** — the app has no such stat |
+| putts made / faced from 5-15 ft | **ask** — no app has this stat |
 | club off the tee | **ask** if the round is unusual |
 
 If he typed the numbers instead of attaching images, use those. If something is
@@ -48,7 +64,7 @@ holes rather than trusting a summary tile, and sanity-check:
 
 ```bash
 python3 scripts/add_round.py --date DATE --course "COURSE" --tee TEE \
-  --yards N --par 72 --score N --front N --back N \
+  --yards N --par 72 --course-rating N --slope N --score N --front N --back N \
   --fairways N --gir N --putts N --three-putts N --penalties N \
   --up-down N --doubles N --notes "what happened, in one or two sentences"
 ```
