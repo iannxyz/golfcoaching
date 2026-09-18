@@ -102,3 +102,48 @@ yardage, stroke index and his own carry distances.
   short 62 to 19. Take one extra and commit.
 - **Chip and lag into a 3-foot circle**, not at the hole.
 - **Record:** putts made and faced from 5–15 ft, and what the greens are doing.
+
+---
+
+## Result: 92 (+20). Round underneath: **85 — exactly personal par.**
+
+Differential 15.5, against 20.5 on his first visit. Same course, same 2 GIR,
+**six strokes better.**
+
+### Against the plan, hole by hole
+
+| | |
+|---|---|
+| Matched or beat the plan | **13 of 18 holes** |
+| Beat it | 9, 15, 16, 18 — including a **par on the 240-yard 15th** |
+| Cost the round | **4 (+2), 8 (+3), 10 (+3)** |
+
+Those three holes are +8. The other fifteen came in at −1 against plan. He
+played the strategy and it worked everywhere he followed it.
+
+**Hole 10 is the painful one.** 305 yards, no stroke, the plan said 4-iron and
+take the par, and it went for 7. That was the single hole flagged in advance as
+the discipline test.
+
+**Hole 8** — a 9 on a par 5 — is the other. Plan was three shots and a bogey.
+
+### What was genuinely good
+
+- **31 putts with 2 greens in regulation.** Top 9% at the course. He was
+  chipping on almost every hole and still only took 31, with one three-putt.
+- **Up-and-down 42%**, against a 33% career average, top 21% at the course.
+- **Par-par-par-par to finish** on 15 through 18, beating the plan by 3 over
+  the closing stretch. The old back-nine fatigue pattern did not appear.
+
+### The lesson, and it is the one the plan predicted
+
+**Four penalties.** Across 14 driving holes that is a **29% penalty rate**
+against the 5–6% break-even computed beforehand. At that rate the model says the
+driver costs ~3.6 strokes over the 5-wood.
+
+The tee-club decision was the whole plan, and the round is the evidence for it.
+Short game and putting were both *better* than his averages; the score came from
+disaster holes and penalty strokes, exactly where it was forecast to come from.
+
+**Prediction was 87–91, centre 89. Actual 92** — one outside the range, and the
+four penalties are the gap.

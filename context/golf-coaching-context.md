@@ -1,6 +1,6 @@
 # Golf Coaching Context — Ian
 
-**Last updated:** 2026-09-16
+**Last updated:** 2026-09-19
 
 **Purpose:** Carries forward an ongoing golf-coaching relationship so a new session (or an agent) can pick up seamlessly. Ian submits rounds as app screenshots (scorecard + stats pages). He wants direct, honest, data-driven coaching — encouragement paired with real accountability. Voice-to-text messages sometimes have transcription errors (e.g. "pug" = putt, "t" = tee).
 
@@ -23,6 +23,11 @@ Companion file: `round-log.csv` — structured round-by-round data.
     short-game or putting number at Eastlake has no conditions excuse behind it;
     read it as a skill result. (Contrast Incline Village, where it was all conditions.)
   - **Campestre de Tijuana** (par 72). White/Blanco ~6261 yds, Azul/Blue ~6581 yds.
+  - **Maderas Golf Club** (Poway, par 72). Blue 6,670 yds, **73.3 / 136** — 3.6 strokes
+    harder for him than Eastlake. Played twice: 98 (Dec 2025) and 92 (Sep 2026), and
+    **2 GIR both times**. That is the course, not the swing: elevated greens and uphill
+    approaches mean fairways do not convert to greens there. Plan for 2 GIR and score
+    with the short game.
 - **Player type:** A **feel player**. Historically played his best golf with minimal/no warmup; over-tinkers when he warms up. Best swing thought is simply **"smooth tempo."** Do NOT load him up with mechanics.
 
 ---
