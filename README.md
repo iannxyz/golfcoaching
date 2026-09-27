@@ -128,6 +128,35 @@ because `calibrate.py` uses the same tables to sanity-check the handicap model
 then, the doubles model is the one that earns its keep. Reaching for strokes
 gained when the data can't support it would be precision theatre.
 
+## The web app
+
+`app/index.html` is a published Artifact: scoring trends, the regression table,
+hole-by-hole blow-up analysis, records and streaks, a sortable round log with
+scorecards, and a form for adding rounds.
+
+<https://claude.ai/artifact/Qyn74cPWvzm5js7BLNcxWD>
+
+The 108-round history is **embedded in the page** so it renders complete with no
+loading state; it is regenerated from the repo whenever a new archive lands:
+
+```bash
+PYTHONPATH=scripts python3 scripts/build_app.py
+```
+
+Rounds added *through* the page go to the artifact's `added` collection, not
+into the HTML. Read them back and merge them into the repo with:
+
+```bash
+# ArtifactData action=list, collection=added, url=<the artifact URL>
+```
+
+That keeps the repo the system of record: the page captures, the repo holds.
+
+Per-hole pars are known for Eastlake (read off a TheGrint card, verified against
+47 rounds of hole scores) and Maderas (published scorecard). The hole analysis
+and hole-level streaks cover only those courses; everything else in the app runs
+on all 108 rounds.
+
 ## Portability
 
 The repo is the system of record; 18Birdies and TheGrint are capture devices.
