@@ -24,16 +24,28 @@ import model
 ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "app" / "index.html"
 
-#: Per-hole pars, only where they are known rather than inferred. Eastlake was
-#: read off a TheGrint scorecard and checked against 47 rounds of hole scores;
-#: Maderas comes from the published club card.
+#: Per-hole pars, only where they are known rather than inferred. Each set was
+#: checked against his own hole scores before being trusted: with pars right,
+#: every hole's mean sits within about a stroke of the round's average over par,
+#: and a mis-assigned par shows up as a ~1.0 outlier.
+#:
+#: Eastlake  -- read off a TheGrint card, verified over 47 rounds.
+#: Maderas   -- published club scorecard.
+#: Campestre -- published card (its Blue 6,579 / White 6,305 match the tees he
+#:              plays), verified over 25 rounds: every hole +0.45 to +1.45 over
+#:              par against a +0.94 average, no outliers.
 COURSE_PARS = {
-    "Enagic at Eastlake": [4,4,4,3,5,4,3,4,5,4,4,3,4,5,4,4,3,5],
-    "Maderas Golf Club":  [4,4,5,3,4,4,3,5,4,4,4,4,4,5,3,4,3,5],
+    "Enagic at Eastlake":   [4,4,4,3,5,4,3,4,5,4,4,3,4,5,4,4,3,5],
+    "Maderas Golf Club":    [4,4,5,3,4,4,3,5,4,4,4,4,4,5,3,4,3,5],
+    "Campestre de Tijuana": [5,3,4,4,4,3,4,4,5,4,4,3,4,4,4,5,5,3],
 }
+#: Autofill for the app's add-round form. Rating and slope only where they are
+#: published for the tee he actually plays -- a guessed rating would silently
+#: corrupt every differential computed from it.
 COURSE_META = {
-    "Enagic at Eastlake": {"rating":70.4,"slope":128,"yards":6224,"tee":"Blue"},
-    "Maderas Golf Club":  {"rating":73.3,"slope":136,"yards":6670,"tee":"Blue"},
+    "Enagic at Eastlake":   {"rating":70.4,"slope":128,"yards":6224,"tee":"Blue"},
+    "Maderas Golf Club":    {"rating":73.3,"slope":136,"yards":6670,"tee":"Blue"},
+    "Campestre de Tijuana": {"yards":6305,"tee":"White"},
 }
 
 

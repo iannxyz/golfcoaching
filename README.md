@@ -152,10 +152,12 @@ into the HTML. Read them back and merge them into the repo with:
 
 That keeps the repo the system of record: the page captures, the repo holds.
 
-Per-hole pars are known for Eastlake (read off a TheGrint card, verified against
-47 rounds of hole scores) and Maderas (published scorecard). The hole analysis
-and hole-level streaks cover only those courses; everything else in the app runs
-on all 108 rounds.
+Per-hole pars are known for Eastlake (read off a TheGrint card), Maderas and
+Campestre (published scorecards). Each set was checked against his own hole
+scores before being trusted: with pars right, every hole's mean sits within
+about a stroke of the round's average over par, and a mis-assigned par shows up
+as a ~1.0 outlier. That covers 70 of the 108 rounds; the rest of the app runs on
+all of them.
 
 ## Portability
 
