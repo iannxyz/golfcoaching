@@ -59,6 +59,8 @@ COURSE_ALIASES = {
     "miami beach golf club": "Miami Beach Golf Club",
     "torrey pines north": "Torrey Pines North",
     "torrey pines golf course": "Torrey Pines North",
+    "corica park": "Corica Park North",
+    "corica park north": "Corica Park North",
 }
 
 
@@ -222,6 +224,21 @@ def merge(app: dict[str, dict], hand: dict[str, dict],
                                 f"{a['date']}: {k} logged as {h[k]}, app says "
                                 f"{a[k]} (app counts total {holes}); using {a[k]}")
                         row[k] = a[k]
+            # The app names the course from its own course database; a hand
+            # log entry can simply be misremembered. Where they disagree, the
+            # app wins AND the hand row's course-specific fields are dropped,
+            # because they describe a different course. 2026-05-30 is the real
+            # case: logged as Eastlake Black, actually Coronado.
+            if a.get("course") and h.get("course") and \
+                    canonical_course(h["course"]) != a["course"]:
+                if conflicts is not None:
+                    conflicts.append(
+                        f"{a['date']}: course logged as {h['course']!r}, app says "
+                        f"{a['course']!r}; using the app's and dropping the "
+                        f"logged tee/yardage")
+                row["course"] = a["course"]
+                for k in ("tee", "yards", "course_rating", "slope"):
+                    row.pop(k, None)
             # The scorecard is the arbiter of the score itself. Hand-logged
             # values are strings, so coerce before comparing or every round
             # reads as a conflict with itself.

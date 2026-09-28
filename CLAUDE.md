@@ -60,6 +60,21 @@ stand-in built from 18Birdies' own per-round number; they ignore slope and drift
 by about a stroke at the ends of the range. TheGrint prints rating and slope on
 every scorecard header, so new rounds should always carry them.
 
+## Where a source wins
+
+The hand log (`data/raw/round-log.csv`) is preferred by default -- a human was
+there -- but the app's record wins on three things, each because the app's
+version is internally checkable and a hand entry is a memory:
+
+- **the four hole counts**, when the app's tally totals the holes played;
+- **the score**, when the app's hole-by-hole strokes sum to its own total;
+- **the course**, always, since the app names it from a course database. The
+  hand row's tee, yardage, rating and slope are then dropped too, because they
+  describe a different course. This is not hypothetical: 2026-05-30 was logged
+  as Eastlake Black and is actually Coronado.
+
+Every such override is printed by `importers.py` as a conflict. Read them.
+
 ## Data honesty
 
 - A blank stat is better than a guessed one. `add_round.py` validates rather

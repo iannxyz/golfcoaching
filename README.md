@@ -143,6 +143,17 @@ loading state; it is regenerated from the repo whenever a new archive lands:
 PYTHONPATH=scripts python3 scripts/build_app.py
 ```
 
+The page can also **import an 18Birdies archive directly**: drop the export into
+the Add tab and it parses the file in the browser, skips every round already
+present (keyed on the app's round id, so two rounds in one day both survive),
+skips nine-hole rounds, and writes the rest to the store. Its parser mirrors
+`importers.py` and is checked against it — over the 2026-09-27 archive the two
+agree on all 107 rounds, field for field.
+
+Scorecard screenshots attach to a manually added round via the `assets`
+capability and show on that round's scorecard. Declaring `assets` makes the page
+organization-internal, so it can never be shared by public link.
+
 Rounds added *through* the page go to the artifact's `added` collection, not
 into the HTML. Read them back and merge them into the repo with:
 
